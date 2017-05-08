@@ -1,0 +1,5 @@
+<?php echo $this->getChildHtml('oldonepage'); ?>
+<script type="text/javascript">
+var speedboxCity = new Varien.speedboxCity(<?php echo json_encode(Mage::helper('speedbox')->get_cities_values()); ?>, '<?php echo $this->escapeHtml($this->getQuote()->getShippingAddress()->getCity()) ?>');
+
+</script>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <S3ibusiness_Speedbox>
+      <active>true</active>
+      <codePool>local</codePool>            
+	        <depends>
+                <Mage_Shipping />
+            </depends>
+      <version>1.0.0</version>
+    </S3ibusiness_Speedbox>
+  </modules>
+</config>

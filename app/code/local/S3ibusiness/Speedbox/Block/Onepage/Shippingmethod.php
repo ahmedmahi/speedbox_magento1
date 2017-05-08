@@ -1,0 +1,5 @@
+<?php
+class S3ibusiness_Speedbox_Block_Onepage_Shippingmethod extends Mage_Checkout_Block_Onepage_Shipping_Method
+{
+
+}

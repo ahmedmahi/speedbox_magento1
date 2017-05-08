@@ -1,0 +1,26 @@
+<?xml version="1.0"?>   
+<layout version="1.0.0">   
+ 
+      <checkout_onepage_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><script>js/speedbox/speedbox.js</script></action>
+            <action method="addItem"><type>skin_css</type><name>css/speedbox/speedbox.css</name><params/></action>
+        </reference>
+    </checkout_onepage_index>
+          <sales_order_view>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><script>js/speedbox/comments.js</script></action>
+        </reference>
+    </sales_order_view>
+      <speedbox_index_tracer>   
+    <reference name="root">   
+      <action method="setTemplate"><template>page/1column.phtml</template></action>   
+    </reference>   
+    <reference name="content">   
+      <block type="speedbox/tracer" name="speedbox_tracer" template="speedbox/tracer.phtml"/>   
+    </reference>   
+  </speedbox_index_tracer>
+    
+
+</layout>   
+	

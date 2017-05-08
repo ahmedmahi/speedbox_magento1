@@ -1,0 +1,209 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <S3ibusiness_Speedbox>
+      <version>1.0.0</version>
+    </S3ibusiness_Speedbox>
+  </modules>
+  <frontend>
+    <routers>
+      <speedbox>
+        <use>standard</use>
+          <args>
+            <module>S3ibusiness_Speedbox</module>
+            <frontName>speedbox</frontName>
+          </args>
+      </speedbox>
+    </routers>
+    <translate>
+        <modules>
+            <Mage_Shipping>
+                <files>
+                   <S3ibusiness_Speedbox>Speedbox_Relais.csv</S3ibusiness_Speedbox>
+                </files>
+            </Mage_Shipping>
+        </modules>
+    </translate>
+		<layout>
+		  <updates>
+			<speedbox>
+			  <file>speedbox.xml</file>
+			</speedbox>
+		  </updates>
+		</layout>
+  </frontend>
+  <global>
+    <helpers>
+      <speedbox>
+        <class>S3ibusiness_Speedbox_Helper</class>
+      </speedbox>
+    </helpers>
+	<blocks>
+	  <speedbox>
+		<class>S3ibusiness_Speedbox_Block</class>
+	  </speedbox>
+	</blocks>
+	<models>
+	  <speedbox>
+		<class>S3ibusiness_Speedbox_Model</class>
+		<resourceModel>speedbox_mysql4</resourceModel>
+	  </speedbox>
+	  <speedbox_mysql4>
+		<class>S3ibusiness_Speedbox_Model_Mysql4</class>
+		<entities>		  
+			  <zones>
+				<table>speedbox_zones</table>
+			  </zones>		  
+			  <fraisport>
+				<table>speedbox_frais_port</table>
+			  </fraisport>
+		</entities>
+	  </speedbox_mysql4>
+	</models>
+	<resources>
+	  <speedbox_setup>
+		<setup>
+		  <module>S3ibusiness_Speedbox</module>
+		  <class>Mage_Sales_Model_Mysql4_Setup</class>
+		</setup>
+		<connection>
+		  <use>core_setup</use>
+		</connection>
+	  </speedbox_setup>
+	  <speedbox_write>
+		<connection>
+		  <use>core_write</use>
+		</connection>
+	  </speedbox_write>
+	  <speedbox_read>
+		<connection>
+		  <use>core_read</use>
+		</connection>
+	  </speedbox_read>
+	</resources>
+    <events>
+	  <checkout_controller_onepage_save_shipping_method> 
+        <observers>
+          <checkout_controller_onepage_save_shipping_method_handler>
+            <type>model</type> 
+            <class>speedbox/observer</class> 
+            <method>changeShipingAdress</method> 
+            <args></args> 
+          </checkout_controller_onepage_save_shipping_method_handler>
+        </observers>
+      </checkout_controller_onepage_save_shipping_method>
+      	  <core_block_abstract_to_html_before> 
+        <observers>
+          <core_block_abstract_to_html_before_handler>
+            <type>model</type> 
+            <class>speedbox/observer</class> 
+            <method>addSpeedboxElements</method> 
+            <args></args> 
+          </core_block_abstract_to_html_before_handler>
+        </observers>
+      </core_block_abstract_to_html_before>
+      <checkout_type_onepage_save_order>
+            <observers>
+               <checkout_type_onepage_save_order_handler>
+                 <type>singleton</type>
+                 <class>speedbox/observer</class>
+                 <method>saveSelectedRelais</method>
+               </checkout_type_onepage_save_order_handler>
+                </observers>
+       </checkout_type_onepage_save_order>
+    </events>
+  </global>
+  <admin>
+	<routers>
+	  <speedbox_admin>
+	    <use>admin</use>
+		<args>
+		  <module>S3ibusiness_Speedbox</module>
+		  <frontName>admin_speedbox</frontName>
+		</args>
+	  </speedbox_admin>
+	</routers>
+  </admin>
+  <adminhtml>
+	<menu>
+	  <speedbox module="speedbox">
+		<title>Speedbox</title>
+		<sort_order>100</sort_order>
+		<children>
+		  <zones module="speedbox">
+		    <title>Manage Zones</title>
+			<sort_order>0</sort_order>
+			<action>admin_speedbox/adminhtml_zones</action>
+		  </zones>
+		  <fraisport module="speedbox">
+		    <title>Delivery Fee Management</title>
+			<sort_order>10</sort_order>
+			<action>admin_speedbox/adminhtml_fraisport</action>
+		  </fraisport>
+		  <speedboxorder module="speedbox">
+		    <title>Manage Shipping orders</title>
+			<sort_order>20</sort_order>
+			<action>admin_speedbox/adminhtml_orders</action>
+		  </speedboxorder>
+		</children>
+	  </speedbox>
+	</menu>
+	<acl>
+	  <resources>
+		<all>
+		  <title>Allow Everything</title>
+		</all>
+		<admin>
+		  <children>
+			<speedbox translate="title" module="speedbox">
+			  <title>Speedbox</title>
+			  <sort_order>1000</sort_order>
+			  <children>
+		  <zones translate="title">
+			<title>Manage Zones</title>
+			<sort_order>0</sort_order>
+		  </zones>
+		  <fraisport translate="title">
+			<title>Manage Fraisport</title>
+			<sort_order>10</sort_order>
+		  </fraisport>
+		  <speedboxorder translate="title">
+			<title>Manage orders</title>
+			<sort_order>20</sort_order>
+		  </speedboxorder>
+			  </children>
+			</speedbox>
+		  </children>
+		</admin>
+	  </resources>
+	</acl>
+	    <translate>
+        <modules>
+            <Mage_Shipping>
+                <files>
+                   <S3ibusiness_Speedbox>Speedbox_Relais.csv</S3ibusiness_Speedbox>
+                </files>
+            </Mage_Shipping>
+        </modules>
+    </translate>
+	<layout>
+	  <updates>
+		<speedbox>
+		  <file>speedbox.xml</file>
+		</speedbox>
+	  </updates>
+	</layout>
+  </adminhtml>    
+	<default>
+        <carriers>
+            <speedbox>
+                <active>1</active>
+                <model>speedbox/carrier_speedbox</model>
+                <name>SpeedBox relais</name>
+                <title>SpeedBox relais</title>
+                <description>Mode de livraison SpeedBox relais</description>
+                <sort_order>0</sort_order>
+            </speedbox>
+        </carriers>
+    </default>
+</config> 

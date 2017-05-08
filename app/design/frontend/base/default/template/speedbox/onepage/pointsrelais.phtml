@@ -1,0 +1,105 @@
+<?php
+
+/*
+ * Plugin Name: Speedbox Maroc
+ * Plugin URI: http://www.speedbox.ma/
+ * Description: Module de livraison/paiement Speedbox pour WooCommerce 2.x
+ * Version: 1.0.0
+ * Author: Speedbox
+ * Author URI: http://www.speedbox.ma/
+ * Developer: Ahmed MAHI <1hmedmahi@gmail.com>
+ * Developer URI: http://ahmedmahi.com
+ * Text Domain: woocommerce-speedbox
+ * Domain Path: /languages
+ * @license:     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<?php $customer_data          = $this->getInfosForSearch();?>
+<?php $speedbox_relais_points = $this->getPointsRelais($customer_data);?>
+<?php if (!empty($speedbox_relais_points['error'])): ?>
+    <div class="sb_relais_error"><?php echo $speedbox_relais_points['error'] ?></div>
+     <?php else: ?>
+   <div id="sb_relais_filter" onclick="speedbox.hidePopup();" style="display: none;"></div>
+                        <table align="center" id="sb_relais_point_table" class="sb_relaistable">
+                         <tr>
+                            <td colspan="2" style="padding:0px;" class="sb_headertd">
+                                <div id="sb_div_relais_header"><p><?php echo $this->__('Please select your Pickup point among this list') ?></p></div>
+
+                            </td>
+                        </tr>
+                        <?php if (!empty($speedbox_relais_points['empty'])): ?>
+
+
+
+        <tr><td colspan="2" style="padding:0px;" class="sb_headertd"><div class="sb_relais_error"><?php echo $speedbox_relais_points['empty']; ?></div></td></tr>
+               <?php else: ?>
+    <?php foreach ($speedbox_relais_points as $key => $item): ?>
+
+                <tr><td colspan="2" class="sb_tdpr">
+                    <div class="sb_lignepr">
+                        <div align="left" class="sb_logorelais"></div>
+                        <div align="left" class="sb_adressepr"><b>
+                          <a href="#!" onClick="speedbox.popup_speedbox_view('<?php echo $this->getSkinUrl('images/speedbox/logo-max-png.png') ?>','sb_relaydetail<?php echo $key; ?>','map_canvas<?php echo $key; ?>','<?php echo $item['coord_lat']; ?>','<?php echo $item['coord_long']; ?>')"><?php echo $item['shop_name']; ?></a>
+                        </b><br/><?php echo $item['address']; ?><br/><?php echo $item['postcode'] . ' ' . $item['city']; ?><br/></div>
+                        <div align="right" class="sb_distancepr"><a href="#!" onClick="speedbox.popup_speedbox_view('<?php echo $this->getSkinUrl('images/speedbox/logo-max-png.png') ?>','sb_relaydetail<?php echo $key; ?>','map_canvas<?php echo $key; ?>','<?php echo $item['coord_lat']; ?>','<?php echo $item['coord_long']; ?>')"><?php echo $item['distance']; ?> km</a></div>
+                        <div align="center" class="sb_radiopr">
+                            <input onclick="speedbox.write_point_relais_vlues('<?php echo $item['relay_id']; ?>')" type="radio" name="sb_relay_id" id="<?php echo $item['relay_id']; ?>" value='<?php echo json_encode($item); ?>' class="radio"></input>
+
+                        </div>
+                    </div>
+                </td></tr>
+
+            <div class="sb_relaisbox" id="sb_relaydetail<?php echo $key; ?>" style="display:none;">
+                        <div class="sb_relaisboxclose" onclick="
+                            document.getElementById('sb_relaydetail<?php echo $key; ?>').style.display='none';
+                            document.getElementById('sb_relais_filter').style.display='none'">
+                            <img src="<?php echo $this->getSkinUrl('images/speedbox/box-close.png') ?>"/>
+                        </div>
+                                <div class="boxcarto" id="map_canvas<?php echo $key; ?>" style="width:100%;"></div>
+                                <div id="boxbottom" class="boxbottom">
+                                <div id="boxadresse" class="boxadresse">
+                                    <div class="boxadresseheader"><img src="<?php echo $this->getSkinUrl('images/speedbox/logo-speedbox.png') ?>" alt="" /></div>
+                                    <strong><?php echo $item['shop_name']; ?></strong></br><?php echo $item['address']; ?></br>
+
+
+             <?php echo $item['postcode'] . '  ' . $item['city']; ?><br/>
+           <?php if (!empty($item['local_hint'])): ?>
+                <p><?php echo $this->__('Landmark') . ' : ' . $item['local_hint']; ?></p>
+           <?php endif;?>
+
+           </div>
+
+           <div class="boxhoraires">
+                                <div class="boxhorairesheader"><img src="<?php echo $this->getSkinUrl('images/speedbox/horaires.png') ?>" alt="-" width="32" height="32"/><br/><?php echo __('Opening Hours'); ?></div>
+                                <p><span><?php echo $this->__('Monday'); ?> : </span><?php echo $item['opening_hours']['monday']; ?></p>
+                                <p><span><?php echo $this->__('Tuesday'); ?> : </span><?php echo $item['opening_hours']['tuesday']; ?></p>
+                                <p><span><?php echo $this->__('Wednesday'); ?> : </span><?php echo $item['opening_hours']['wednesday']; ?></p>
+                                <p><span><?php echo $this->__('Thursday'); ?> : </span><?php echo $item['opening_hours']['thursday']; ?></p>
+                                <p><span><?php echo $this->__('Friday'); ?> : </span><?php echo $item['opening_hours']['friday']; ?></p>
+                                <p><span><?php echo $this->__('Saturday'); ?> : </span><?php echo $item['opening_hours']['saturday']; ?></p>
+                                <p><span><?php echo $this->__('Sunday'); ?> : </span><?php echo $item['opening_hours']['sunday']; ?></p>
+                            </div>
+
+            <div class="boxinfos">
+                                <div><h5><?php echo $this->__('Distance in KM'); ?> : </h5><strong><?php echo $item['distance']; ?> km </strong></div>
+                                <div><h5><?php echo $this->__('Pickup ID'); ?> : </h5><strong><?php echo (string) $item['relay_id']; ?> </strong></div>
+                                <div><img src="<?php echo $item['images']; ?>" alt="-"  height="162" /> </div>
+
+            <?php if (!empty($item['closing_period']) && count($item['closing_period']) > 0): ?>
+           <?php foreach ($item['closing_period'] as $holiday_item): ?>
+                   <?php $holiday_item = (array) $holiday_item;?>
+                    <div><img id="boxinfoswarning" src="<?php echo $this->getSkinUrl('images/speedbox/warning.png') ?>" alt="-" width="16" height="16"/> <h4><?php echo $this->__('Closing period'); ?> : </h4> <?php echo $holiday_item[0]; ?></div>
+                <?php endforeach;?>
+            <?php endif;?>
+            </div>
+
+            </div>
+            </div>
+         <?php endforeach;?>
+    <?php endif;?>
+    </table>
+    <div class="speedbox_relais_selected">
+    <label><?php echo $this->__('Point relais selectioné') ?></label>
+<span id="speedbox_relais_selected"></span>
+</div>
+  <?php endif;?>

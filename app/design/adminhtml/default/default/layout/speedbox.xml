@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <speedbox_adminhtml_zones_index>
+	<reference name="content">
+	  <block type="speedbox/adminhtml_zones" name="zones" />
+	</reference>
+  </speedbox_adminhtml_zones_index>
+  <speedbox_adminhtml_fraisport_index>
+	<reference name="content">
+	  <block type="speedbox/adminhtml_fraisport" name="fraisport" />
+	</reference>
+  </speedbox_adminhtml_fraisport_index>
+    <speedbox_adminhtml_orders_index>
+  	  <reference name="head">
+	  <action method="addJs"><script>speedbox/orders.js</script></action>
+	</reference>
+	</speedbox_adminhtml_orders_index>
+</layout>

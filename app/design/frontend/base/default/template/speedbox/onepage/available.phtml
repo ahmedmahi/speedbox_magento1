@@ -1,0 +1,11 @@
+<?php echo $this->getChildHtml('oldavailable'); ?>
+<?php if ($this->getQuote()->getShippingAddress()->getCity()): ?>
+<script type="text/javascript">
+ //<![CDATA[
+ speedbox.SetCity("<?php echo $this->escapeHtml($this->getQuote()->getShippingAddress()->getCity()) ?>");
+    if ($$("input[id='s_method_speedbox_speedbox']:checked").length != 0){
+              speedbox.speedboxCheck();
+     }
+  //]]>
+ </script>
+<?php endif;?>
