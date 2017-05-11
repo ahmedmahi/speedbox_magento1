@@ -61,10 +61,10 @@ class S3ibusiness_Speedbox_Model_Carrier_Speedbox extends Mage_Shipping_Model_Ca
                 }
 
             } else {
-                $cost    = $this->getConfigData('default_price_api');
-                $session = Mage::getSingleton('core/session');
-
-                if ($point_relai = $session->getSpeedboxSelectedRelaisId()) {
+                $cost        = $this->getConfigData('default_price_api');
+                $session     = Mage::getSingleton('core/session');
+                $point_relai = $session->getSpeedboxSelectedRelaisId();
+                if ($point_relai) {
                     $cout_temps = Mage::helper('speedbox')->get_api()->colis->coutTemps($point_relai);
                     if (isset($cout_temps['frais'])) {
                         $cost = $this->getConfigData('supp_api') + (double) $cout_temps['frais'];

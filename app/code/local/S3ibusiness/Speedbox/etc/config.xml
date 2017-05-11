@@ -115,13 +115,13 @@
   </global>
   <admin>
 	<routers>
-	  <speedbox_admin>
+	  <speedbox>
 	    <use>admin</use>
 		<args>
 		  <module>S3ibusiness_Speedbox</module>
 		  <frontName>admin_speedbox</frontName>
 		</args>
-	  </speedbox_admin>
+	  </speedbox>
 	</routers>
   </admin>
   <adminhtml>

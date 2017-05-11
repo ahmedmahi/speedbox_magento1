@@ -7,7 +7,8 @@ class S3ibusiness_Speedbox_Block_Adminhtml_Orders_Renderer extends Mage_Adminhtm
     {
         $value = $row->getData($this->getColumn()->getIndex());
         if ($this->getColumn()->getIndex() == 'speedbox_selected_relais_infos') {
-            if ($relais_infos = json_decode($value, true)) {
+            $relais_infos = json_decode($value, true);
+            if ($relais_infos) {
                 if (isset($relais_infos['shop_name'])) {
                     return '<div>' . $relais_infos['shop_name'] . '<br />' . $relais_infos['address'] . '<br />' . $relais_infos['city'] . '</div>';
 

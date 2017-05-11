@@ -30,6 +30,7 @@ class S3ibusiness_Speedbox_Helper_Data extends Mage_Core_Helper_Abstract
         $city                   = $this->stripAccents($customer_data['city']);
         $zipcode                = $customer_data['postcode'];
         $points_relais          = $this->get_api()->points_relais->get_by_city($city);
+        $city_data              = $this->get_city_from_data($city/*, $zipcode*/);
         if ($country != 'MA') {
             $speedbox_relais_points = array('error' => $this->__('This shipping method is only available in Morocco .'));
         } else if (is_array($points_relais) && !empty($points_relais) && !isset($points_relais['error'])) {
@@ -37,7 +38,7 @@ class S3ibusiness_Speedbox_Helper_Data extends Mage_Core_Helper_Abstract
             $ville_proche['min_city']['city'] = $city;
             $ville_proche['distance']         = 1000;
 
-        } else if (!empty($city_data = $this->get_city_from_data($city/*, $zipcode*/))) {
+        } else if (!empty($city_data)) {
             // desactivation du recherche basé sur les codes postales
             $cities                 = $this->get_api()->villes->get();
             $ville_proche           = $this->min_circle_distance($city_data, $cities);
@@ -369,7 +370,8 @@ class S3ibusiness_Speedbox_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $min = array('distance' => 999999999999999999999999, 'min_city' => array());
         foreach ($cities as $speedbox_city) {
-            if (!empty($city_data = $this->get_city_from_data($speedbox_city))) {
+            $city_data = $this->get_city_from_data($speedbox_city);
+            if (!empty($city_data)) {
 
                 $distance = $this->circleDistance(
                     $city_data['latitude'], $city_data['longitude'], $city['latitude'], $city['longitude']);

@@ -14,8 +14,8 @@ class S3ibusiness_Speedbox_Adminhtml_OrdersController extends Mage_Adminhtml_Con
             foreach ($orderIds as $order_id) {
                 $order = Mage::getModel('sales/order')->load($order_id);
 
-                $pointrelaist = $order->getSpeedboxSelectedRelaisId();
-
+                $pointrelaist          = $order->getSpeedboxSelectedRelaisId();
+                $colis_numero_speedbox = $order->getSpeedboxNumeroColis();
                 if ($order->getShippingMethod() == 'speedbox_speedbox' && $pointrelaist && !$order->getSpeedboxNumeroColis()) {
                     $numero_colis = ($this->hasShipment($order)) ? ($this->hasShipment($order)) : $this->creatShipment($order); //Mage::helper('speedbox')->generate_token();
                     $weights      = explode("-", $this->getRequest()->getPost('weight_' . $order_id));
@@ -47,7 +47,7 @@ class S3ibusiness_Speedbox_Adminhtml_OrdersController extends Mage_Adminhtml_Con
                         $this->_getSession()->addError($this->__('Commande ID :' . $order->getIncrementID() . ' ' . $result));
                     }
 
-                } elseif ($colis_numero_speedbox = $order->getSpeedboxNumeroColis()) {
+                } elseif ($colis_numero_speedbox) {
 
                     $track = $this->apiTracker($colis_numero_speedbox, $order, true);
                     if (!$track['numero_prise_en_charge']) {
@@ -78,7 +78,7 @@ class S3ibusiness_Speedbox_Adminhtml_OrdersController extends Mage_Adminhtml_Con
 
         $trackingTitle  = 'Speedbox';
         $sendEmail      = 1;
-        $url            = Mage::getUrl('speedbox/index/tracer/trackingnumber/' . $incrementId);
+        $url            = str_replace('admin_speedbox', 'speedbox', Mage::getUrl('speedbox/index/tracer/', array('trackingnumber' => $incrementId)));
         $comment        = 'Cher client, vous pouvez suivre l\'acheminement de votre colis par Speedbox en cliquant sur le lien ci-contre : ' . '<a target="_blank" href="' . $url . '">Suivre ce colis </a>';
         $includeComment = 1;
 
