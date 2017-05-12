@@ -1,3 +1,14 @@
+<?php
+
+/**
+ * @category    S3ibusiness
+ * @package     S3ibusiness_Speedbox
+ * @author      Speedbox ( http://www.speedbox.ma)
+ * @developer   Ahmed MAHI <1hmedmahi@gmail.com> (http://ahmedmahi.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+?>
 <?php echo $this->getChildHtml('oldonepage'); ?>
 <script type="text/javascript">
 var speedboxCity = new Varien.speedboxCity(<?php echo json_encode(Mage::helper('speedbox')->get_cities_values()); ?>, '<?php echo $this->escapeHtml($this->getQuote()->getShippingAddress()->getCity()) ?>');
