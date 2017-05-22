@@ -22,7 +22,14 @@ class S3ibusiness_Speedbox_Block_Adminhtml_Orders_Renderer extends Mage_Adminhtm
 
                 }
             }
-        }return $value;
+        }
+        if ($this->getColumn()->getIndex() == 'speedbox_statut_colis') {
+
+            if ($value == '-') {
+                return '<span style="color:#d51f4f;font-weight: bold;">' . Mage::helper('speedbox')->__('Non traité') . '</span>';
+            }
+        }
+        return $value;
 
     }
 

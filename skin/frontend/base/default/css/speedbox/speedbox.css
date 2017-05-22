@@ -355,7 +355,7 @@ div.gm-style {
     margin: 0;
 }
 .boxadresseheader img {
-    margin: 5px auto;
+        margin: 5px 0 5px -75px;
 }
 
 .boxhorairesheader img {

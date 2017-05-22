@@ -9,6 +9,8 @@
  */
 
 ?>
+<?php $google_api_key = Mage::getStoreConfig('carriers/speedbox/google_api_key');?>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_api_key; ?>" js></script>
 <script type="text/javascript">
  //<![CDATA[
 var speedbox = new Varien.Speedbox("<?php echo Mage::getUrl('speedbox/index/pointsrelais'); ?>","<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>");

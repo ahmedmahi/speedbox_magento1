@@ -63,23 +63,4 @@ class S3ibusiness_Speedbox_Block_Adminhtml_Zones_Grid extends Mage_Adminhtml_Blo
         return $this;
     }
 
-    public static function getOptionArray1()
-    {
-        $data_array    = array();
-        $data_array[0] = 'Casablanca';
-        $data_array[1] = 'Rabat';
-        $data_array[2] = 'Marrakech';
-        $data_array[3] = 'Agadir';
-        return ($data_array);
-    }
-    public static function getValueArray1()
-    {
-        $data_array = array();
-        foreach (S3ibusiness_Speedbox_Block_Adminhtml_Zones_Grid::getOptionArray1() as $k => $v) {
-            $data_array[] = array('value' => $k, 'label' => $v);
-        }
-        return ($data_array);
-
-    }
-
 }

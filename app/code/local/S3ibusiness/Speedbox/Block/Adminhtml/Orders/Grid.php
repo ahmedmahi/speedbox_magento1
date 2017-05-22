@@ -114,10 +114,11 @@ class S3ibusiness_Speedbox_Block_Adminhtml_Orders_Grid extends Mage_Adminhtml_Bl
         $this->addColumn('speedbox_selected_relais_infos', $columnData);
 
         $columnData = array(
-            'header' => 'Speedbox status',
-            'index'  => 'speedbox_statut_colis',
-            'width'  => '125px',
-            'align'  => 'center',
+            'header'   => 'Speedbox status',
+            'index'    => 'speedbox_statut_colis',
+            'width'    => '125px',
+            'align'    => 'center',
+            'renderer' => 'S3ibusiness_Speedbox_Block_Adminhtml_Orders_Renderer',
 
         );
         if (version_compare(Mage::getVersion(), '1.4.1', '>=')) {

@@ -35,10 +35,9 @@ class S3ibusiness_Speedbox_Adminhtml_OrdersController extends Mage_Adminhtml_Con
                         'nom_du_client'    => $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname(),
                         'email_du_client'  => $order->getCustomerEmail(),
                         'numero_du_client' => Mage::helper('speedbox')->formatTel($order->getBillingAddress()->getTelephone()),
-                        'cash_due'         => (Mage::getStoreConfig('carriers/speedbox/cash_delivery_active') && 'cashondelivery' == $order->getPayment()->getMethod()) ? number_format($order->getGrandTotal(), 2, '.', '') : '0',
+                        'cash_due'         => $this->getCashDue($order),
                         'poids'            => $poids,
                     );
-                    //echo '<pre>' . print_r($coli, true) . '</pre>';
                     $result = Mage::helper('speedbox')->get_api()->colis->create($coli);
 
                     if (is_array($result) && $result['result'] == 'ok') {
@@ -78,7 +77,15 @@ class S3ibusiness_Speedbox_Adminhtml_OrdersController extends Mage_Adminhtml_Con
         return $shipmentIncrementId;
 
     }
+    protected function getCashDue($order)
+    {
+        $conf = Mage::getStoreConfig('carriers/speedbox/cash_delivery_active');
+        if (!$conf) {
+            return '0';
+        }Mage::log(($conf == $order->getPayment()->getMethod()) ? number_format($order->getGrandTotal(), 2, '.', '') : '0');
+        return ($conf == $order->getPayment()->getMethod()) ? number_format($order->getGrandTotal(), 2, '.', '') : '0';
 
+    }
     public function creatShipment($order)
     {
 
